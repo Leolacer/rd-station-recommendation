@@ -44,11 +44,13 @@ describe('App Component', () => {
     expect(screen.getByText('Gerar Recomendações')).toBeInTheDocument();
   });
 
-  it('deve renderizar a seção de recomendações', () => {
+  it('deve renderizar a seção de recomendações', async () => {
     render(<App />);
     
-    expect(screen.getByText('Recomendações')).toBeInTheDocument();
-    expect(screen.getByText('Configure suas preferências e clique em "Gerar Recomendações" para ver sugestões personalizadas.')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Recomendações')).toBeInTheDocument();
+      expect(screen.getByText('Configure suas preferências e clique em "Gerar Recomendações" para ver sugestões personalizadas.')).toBeInTheDocument();
+    });
   });
 
   it('deve renderizar o footer com informações do projeto', () => {
@@ -62,11 +64,13 @@ describe('App Component', () => {
     const mockLoadProducts = jest.fn().mockResolvedValue([]);
     
     // Mock do RecommendationService com método loadProducts
-    const RecommendationService = require('../recommendation.service').default;
-    RecommendationService.mockImplementation(() => ({
-      loadProducts: mockLoadProducts,
-      getRecommendations: jest.fn(),
-      getRecommendationStats: jest.fn()
+    jest.mock('../recommendation.service', () => ({
+      __esModule: true,
+      default: {
+        loadProducts: mockLoadProducts,
+        getRecommendations: jest.fn(),
+        getRecommendationStats: jest.fn()
+      }
     }));
 
     render(<App />);
@@ -79,11 +83,13 @@ describe('App Component', () => {
   it('deve lidar com erro ao carregar produtos', async () => {
     const mockLoadProducts = jest.fn().mockRejectedValue(new Error('Erro de rede'));
     
-    const RecommendationService = require('../recommendation.service').default;
-    RecommendationService.mockImplementation(() => ({
-      loadProducts: mockLoadProducts,
-      getRecommendations: jest.fn(),
-      getRecommendationStats: jest.fn()
+    jest.mock('../recommendation.service', () => ({
+      __esModule: true,
+      default: {
+        loadProducts: mockLoadProducts,
+        getRecommendations: jest.fn(),
+        getRecommendationStats: jest.fn()
+      }
     }));
 
     render(<App />);
@@ -101,14 +107,16 @@ describe('App Component', () => {
       priceRange: { min: 100, max: 200 }
     });
 
-    const RecommendationService = require('../recommendation.service').default;
-    RecommendationService.mockImplementation(() => ({
-      loadProducts: jest.fn().mockResolvedValue([]),
-      getRecommendations: jest.fn().mockReturnValue([
-        { id: 1, name: 'Produto 1', price: 100, category: 'marketing' },
-        { id: 2, name: 'Produto 2', price: 200, category: 'vendas' }
-      ]),
-      getRecommendationStats: mockGetRecommendationStats
+    jest.mock('../recommendation.service', () => ({
+      __esModule: true,
+      default: {
+        loadProducts: jest.fn().mockResolvedValue([]),
+        getRecommendations: jest.fn().mockReturnValue([
+          { id: 1, name: 'Produto 1', price: 100, category: 'marketing' },
+          { id: 2, name: 'Produto 2', price: 200, category: 'vendas' }
+        ]),
+        getRecommendationStats: mockGetRecommendationStats
+      }
     }));
 
     render(<App />);
@@ -126,13 +134,14 @@ describe('App Component', () => {
     });
   });
 
-  it('deve formatar preços corretamente em português brasileiro', () => {
+  it('deve formatar preços corretamente em português brasileiro', async () => {
     render(<App />);
     
     // O componente App tem um método formatPrice que formata para BRL
     // Vamos testar se ele está sendo usado corretamente
-    const appInstance = screen.getByText('Recomendações').closest('.App');
-    expect(appInstance).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Recomendações')).toBeInTheDocument();
+    });
   });
 
   it('deve mostrar loading state durante processamento', async () => {
@@ -143,11 +152,13 @@ describe('App Component', () => {
       });
     });
 
-    const RecommendationService = require('../recommendation.service').default;
-    RecommendationService.mockImplementation(() => ({
-      loadProducts: jest.fn().mockResolvedValue([]),
-      getRecommendations: mockGetRecommendations,
-      getRecommendationStats: jest.fn()
+    jest.mock('../recommendation.service', () => ({
+      __esModule: true,
+      default: {
+        loadProducts: jest.fn().mockResolvedValue([]),
+        getRecommendations: mockGetRecommendations,
+        getRecommendationStats: jest.fn()
+      }
     }));
 
     render(<App />);
@@ -166,11 +177,13 @@ describe('App Component', () => {
       throw new Error('Erro ao gerar recomendações');
     });
 
-    const RecommendationService = require('../recommendation.service').default;
-    RecommendationService.mockImplementation(() => ({
-      loadProducts: jest.fn().mockResolvedValue([]),
-      getRecommendations: mockGetRecommendations,
-      getRecommendationStats: jest.fn()
+    jest.mock('../recommendation.service', () => ({
+      __esModule: true,
+      default: {
+        loadProducts: jest.fn().mockResolvedValue([]),
+        getRecommendations: mockGetRecommendations,
+        getRecommendationStats: jest.fn()
+      }
     }));
 
     render(<App />);
@@ -197,16 +210,18 @@ describe('App Component', () => {
       }
     ];
 
-    const RecommendationService = require('../recommendation.service').default;
-    RecommendationService.mockImplementation(() => ({
-      loadProducts: jest.fn().mockResolvedValue([]),
-      getRecommendations: jest.fn().mockReturnValue(mockProducts),
-      getRecommendationStats: jest.fn().mockReturnValue({
-        count: 1,
-        averagePrice: 99,
-        categories: ['marketing'],
-        priceRange: { min: 99, max: 99 }
-      })
+    jest.mock('../recommendation.service', () => ({
+      __esModule: true,
+      default: {
+        loadProducts: jest.fn().mockResolvedValue([]),
+        getRecommendations: jest.fn().mockReturnValue(mockProducts),
+        getRecommendationStats: jest.fn().mockReturnValue({
+          count: 1,
+          averagePrice: 99,
+          categories: ['marketing'],
+          priceRange: { min: 99, max: 99 }
+        })
+      }
     }));
 
     render(<App />);

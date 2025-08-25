@@ -79,24 +79,19 @@ const Form = ({ onSubmit, isLoading }) => {
     }
 
     // Limpa valores vazios
-    const cleanData = {
-      ...formData,
-      budget: formData.budget || undefined,
-      priceRange: {
-        min: formData.priceRange.min || undefined,
-        max: formData.priceRange.max || undefined
-      }
-    };
-
-    // Remove propriedades undefined
-    Object.keys(cleanData).forEach(key => {
-      if (cleanData[key] === undefined || 
-          (Array.isArray(cleanData[key]) && cleanData[key].length === 0) ||
-          (typeof cleanData[key] === 'object' && 
-           cleanData[key].min === undefined && cleanData[key].max === undefined)) {
-        delete cleanData[key];
-      }
-    });
+    const cleanData = {};
+    
+    // Adiciona apenas propriedades não vazias
+    if (formData.mode) cleanData.mode = formData.mode;
+    if (formData.category) cleanData.category = formData.category;
+    if (formData.experienceLevel) cleanData.experienceLevel = formData.experienceLevel;
+    if (formData.budget) cleanData.budget = formData.budget;
+    if (formData.tags.length > 0) cleanData.tags = formData.tags;
+    if (formData.priceRange.min || formData.priceRange.max) {
+      cleanData.priceRange = {};
+      if (formData.priceRange.min) cleanData.priceRange.min = formData.priceRange.min;
+      if (formData.priceRange.max) cleanData.priceRange.max = formData.priceRange.max;
+    }
 
     onSubmit(cleanData);
   };
@@ -152,10 +147,11 @@ const Form = ({ onSubmit, isLoading }) => {
 
         {/* Categoria */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
             Categoria
           </label>
           <select
+            id="category"
             value={formData.category}
             onChange={(e) => handleInputChange('category', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rd-blue"
@@ -170,10 +166,11 @@ const Form = ({ onSubmit, isLoading }) => {
 
         {/* Nível de Experiência */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="experienceLevel" className="block text-sm font-medium text-gray-700 mb-2">
             Nível de Experiência
           </label>
           <select
+            id="experienceLevel"
             value={formData.experienceLevel}
             onChange={(e) => handleInputChange('experienceLevel', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rd-blue"
@@ -188,10 +185,11 @@ const Form = ({ onSubmit, isLoading }) => {
 
         {/* Orçamento */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-2">
             Orçamento Máximo (R$)
           </label>
           <input
+            id="budget"
             type="number"
             value={formData.budget}
             onChange={(e) => handleInputChange('budget', e.target.value)}
@@ -207,25 +205,27 @@ const Form = ({ onSubmit, isLoading }) => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Faixa de Preço (R$)
           </label>
-          <div className="flex space-x-2">
+          <div className="grid grid-cols-3 gap-2 items-center">
             <input
+              id="priceMin"
               type="number"
               value={formData.priceRange.min}
               onChange={(e) => handlePriceRangeChange('min', e.target.value)}
               placeholder="Mín"
               min="0"
               step="0.01"
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rd-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rd-blue"
             />
-            <span className="flex items-center text-gray-500">até</span>
+            <span className="text-center text-gray-500 text-sm">até</span>
             <input
+              id="priceMax"
               type="number"
               value={formData.priceRange.max}
               onChange={(e) => handlePriceRangeChange('max', e.target.value)}
               placeholder="Máx"
               min="0"
               step="0.01"
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rd-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rd-blue"
             />
           </div>
         </div>

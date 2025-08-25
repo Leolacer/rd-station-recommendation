@@ -59,7 +59,7 @@ describe('Form Component', () => {
   it('deve permitir entrada de orçamento', () => {
     render(<Form onSubmit={mockOnSubmit} isLoading={mockIsLoading} />);
     
-    const budgetInput = screen.getByLabelText('Orçamento Máximo (R$)');
+    const budgetInput = screen.getByPlaceholderText('Ex: 200');
     fireEvent.change(budgetInput, { target: { value: '200' } });
     
     expect(budgetInput.value).toBe('200');
@@ -109,7 +109,7 @@ describe('Form Component', () => {
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
     render(<Form onSubmit={mockOnSubmit} isLoading={mockIsLoading} />);
     
-    const budgetInput = screen.getByLabelText('Orçamento Máximo (R$)');
+    const budgetInput = screen.getByPlaceholderText('Ex: 200');
     fireEvent.change(budgetInput, { target: { value: '-100' } });
     
     const submitButton = screen.getByText('Gerar Recomendações');
@@ -144,9 +144,9 @@ describe('Form Component', () => {
     render(<Form onSubmit={mockOnSubmit} isLoading={mockIsLoading} />);
     
     // Preenche o formulário
-    fireEvent.change(screen.getByLabelText('Categoria'), { target: { value: 'marketing' } });
-    fireEvent.change(screen.getByLabelText('Nível de Experiência'), { target: { value: 'iniciante' } });
-    fireEvent.change(screen.getByLabelText('Orçamento Máximo (R$)'), { target: { value: '200' } });
+    fireEvent.change(screen.getByDisplayValue('Todas as categorias'), { target: { value: 'marketing' } });
+    fireEvent.change(screen.getByDisplayValue('Qualquer nível'), { target: { value: 'iniciante' } });
+    fireEvent.change(screen.getByPlaceholderText('Ex: 200'), { target: { value: '200' } });
     fireEvent.click(screen.getByText('marketing'));
     
     const submitButton = screen.getByText('Gerar Recomendações');
@@ -156,7 +156,7 @@ describe('Form Component', () => {
       expect(mockOnSubmit).toHaveBeenCalledWith({
         category: 'marketing',
         experienceLevel: 'iniciante',
-        budget: 200,
+        budget: '200',
         tags: ['marketing'],
         mode: 'single'
       });
@@ -167,8 +167,8 @@ describe('Form Component', () => {
     render(<Form onSubmit={mockOnSubmit} isLoading={mockIsLoading} />);
     
     // Preenche o formulário
-    fireEvent.change(screen.getByLabelText('Categoria'), { target: { value: 'marketing' } });
-    fireEvent.change(screen.getByLabelText('Orçamento Máximo (R$)'), { target: { value: '200' } });
+    fireEvent.change(screen.getByDisplayValue('Todas as categorias'), { target: { value: 'marketing' } });
+    fireEvent.change(screen.getByPlaceholderText('Ex: 200'), { target: { value: '200' } });
     fireEvent.click(screen.getByText('marketing'));
     
     // Clica em Limpar
@@ -176,8 +176,8 @@ describe('Form Component', () => {
     fireEvent.click(clearButton);
     
     // Verifica se os campos foram limpos
-    expect(screen.getByLabelText('Categoria').value).toBe('');
-    expect(screen.getByLabelText('Orçamento Máximo (R$)').value).toBe('');
+    expect(screen.getByDisplayValue('Todas as categorias')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Ex: 200').value).toBe('');
     expect(screen.getByText('marketing')).toHaveClass('bg-gray-200', 'text-gray-700');
   });
 
