@@ -1,0 +1,68 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Marketing Digital Básico",
+      "category": "marketing",
+      "price": 99.00,
+      "tags": ["iniciante", "marketing", "digital"],
+      "description": "Curso introdutório de marketing digital para pequenas empresas"
+    },
+    {
+      "id": 2,
+      "name": "Automação de Vendas",
+      "category": "vendas",
+      "price": 199.00,
+      "tags": ["vendas", "automação", "intermediário"],
+      "description": "Sistema completo de automação de vendas e leads"
+    },
+    {
+      "id": 3,
+      "name": "Analytics Avançado",
+      "category": "analytics",
+      "price": 299.00,
+      "tags": ["analytics", "avançado", "dados"],
+      "description": "Análise avançada de dados e métricas de marketing"
+    },
+    {
+      "id": 4,
+      "name": "Email Marketing Pro",
+      "category": "marketing",
+      "price": 149.00,
+      "tags": ["email", "marketing", "intermediário"],
+      "description": "Plataforma profissional de email marketing"
+    },
+    {
+      "id": 5,
+      "name": "CRM Empresarial",
+      "category": "crm",
+      "price": 399.00,
+      "tags": ["crm", "empresarial", "avançado"],
+      "description": "Sistema completo de gestão de relacionamento com clientes"
+    },
+    {
+      "id": 6,
+      "name": "SEO Básico",
+      "category": "seo",
+      "price": 79.00,
+      "tags": ["seo", "iniciante", "otimização"],
+      "description": "Curso básico de otimização para motores de busca"
+    },
+    {
+      "id": 7,
+      "name": "Social Media Manager",
+      "category": "social",
+      "price": 179.00,
+      "tags": ["social", "media", "intermediário"],
+      "description": "Gestão completa de redes sociais para empresas"
+    },
+    {
+      "id": 8,
+      "name": "Google Ads Expert",
+      "category": "ads",
+      "price": 249.00,
+      "tags": ["google", "ads", "avançado"],
+      "description": "Especialização em campanhas do Google Ads"
+    }
+  ]
+}
