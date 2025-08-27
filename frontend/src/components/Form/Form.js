@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 
-/**
- * Componente Form para capturar preferências do usuário
- * Permite configurar critérios para o sistema de recomendação
- */
 const Form = ({ onSubmit, isLoading }) => {
   const [formData, setFormData] = useState({
     category: '',
@@ -65,23 +61,16 @@ const Form = ({ onSubmit, isLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Validação básica
     if (formData.budget && formData.budget <= 0) {
       alert('O orçamento deve ser maior que zero');
       return;
     }
-
     if (formData.priceRange.min && formData.priceRange.max && 
         formData.priceRange.min > formData.priceRange.max) {
       alert('O preço mínimo não pode ser maior que o máximo');
       return;
     }
-
-    // Limpa valores vazios
     const cleanData = {};
-    
-    // Adiciona apenas propriedades não vazias
     if (formData.mode) cleanData.mode = formData.mode;
     if (formData.category) cleanData.category = formData.category;
     if (formData.experienceLevel) cleanData.experienceLevel = formData.experienceLevel;
@@ -92,7 +81,6 @@ const Form = ({ onSubmit, isLoading }) => {
       if (formData.priceRange.min) cleanData.priceRange.min = formData.priceRange.min;
       if (formData.priceRange.max) cleanData.priceRange.max = formData.priceRange.max;
     }
-
     onSubmit(cleanData);
   };
 
@@ -112,9 +100,7 @@ const Form = ({ onSubmit, isLoading }) => {
       <h2 className="text-2xl font-bold text-rd-dark mb-6">
         Configure suas Preferências
       </h2>
-      
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Modo de Recomendação */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Modo de Recomendação
@@ -144,8 +130,6 @@ const Form = ({ onSubmit, isLoading }) => {
             </label>
           </div>
         </div>
-
-        {/* Categoria */}
         <div>
           <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
             Categoria
@@ -163,8 +147,6 @@ const Form = ({ onSubmit, isLoading }) => {
             ))}
           </select>
         </div>
-
-        {/* Nível de Experiência */}
         <div>
           <label htmlFor="experienceLevel" className="block text-sm font-medium text-gray-700 mb-2">
             Nível de Experiência
@@ -182,8 +164,6 @@ const Form = ({ onSubmit, isLoading }) => {
             ))}
           </select>
         </div>
-
-        {/* Orçamento */}
         <div>
           <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-2">
             Orçamento Máximo (R$)
@@ -199,8 +179,6 @@ const Form = ({ onSubmit, isLoading }) => {
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rd-blue"
           />
         </div>
-
-        {/* Faixa de Preço */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Faixa de Preço (R$)
@@ -229,8 +207,6 @@ const Form = ({ onSubmit, isLoading }) => {
             />
           </div>
         </div>
-
-        {/* Tags */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Tags de Interesse
@@ -252,8 +228,6 @@ const Form = ({ onSubmit, isLoading }) => {
             ))}
           </div>
         </div>
-
-        {/* Botões */}
         <div className="flex space-x-4 pt-4">
           <button
             type="submit"
@@ -276,3 +250,5 @@ const Form = ({ onSubmit, isLoading }) => {
 };
 
 export default Form;
+
+

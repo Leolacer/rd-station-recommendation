@@ -35,7 +35,11 @@ function App() {
       const mode = preferences.mode || 'single';
       const limit = mode === 'multiple' ? 5 : 1;
       
-      const results = recommendationService.getRecommendations(preferences, mode, limit);
+      const possibleResults = recommendationService.getRecommendations(preferences, mode, limit);
+      const isThenable = possibleResults && typeof possibleResults.then === 'function';
+      const results = isThenable
+        ? await possibleResults
+        : await new Promise((resolve) => setTimeout(() => resolve(possibleResults), 0));
       
       if (mode === 'single') {
         setRecommendations(results ? [results] : []);
@@ -140,8 +144,10 @@ function App() {
 
               {isLoading && (
                 <div className="text-center py-8">
-                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-rd-blue"></div>
-                  <p className="mt-2 text-gray-600">Gerando recomendações...</p>
+                  <div className="animate-spin">
+                    <div className="inline-block rounded-full h-8 w-8 border-b-2 border-rd-blue"></div>
+                    <p className="mt-2 text-gray-600">Gerando recomendações...</p>
+                  </div>
                 </div>
               )}
 

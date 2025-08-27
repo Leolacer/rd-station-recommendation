@@ -48,8 +48,7 @@ npm install
 yarn start
 
 # Ou execute separadamente:
-yarn start:frontend    # Apenas o frontend (porta 3000)
-yarn start:backend     # Apenas o backend (porta 3001)
+e a
 yarn dev               # Frontend e backend simultaneamente
 ```
 
